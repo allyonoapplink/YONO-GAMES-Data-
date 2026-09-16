@@ -1,0 +1,1566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>YONO GAMES Data</title>
+    <meta name="description" content="Browse a directory of 74 games and apps with signup bonus and download information." />
+    <meta name="theme-color" content="#ffffff" />
+    <meta name="robots" content="index, follow" />
+    <style>
+        /* ── reset & base ── */
+        :root {
+            --bg: #ffffff;
+            --bg2: #f7f8fa;
+            --card: #ffffff;
+            --text: #111827;
+            --text2: #6b7280;
+            --border: #e5e7eb;
+            --blue: #2563eb;
+            --blue-dark: #1d4ed8;
+            --green: #16a34a;
+            --gold: #f59e0b;
+            --radius: 14px;
+        }
+        * {
+            box-sizing: border-box;
+        }
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background: var(--bg2);
+            color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+        img {
+            max-width: 100%;
+            display: block;
+        }
+        button {
+            font: inherit;
+        }
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        /* ── header ── */
+        header.topbar {
+            position: sticky;
+            top: 0;
+            z-index: 40;
+            background: #ffffff;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 16px;
+        }
+        .brand {
+            font-weight: 800;
+            font-size: 17px;
+            color: var(--text);
+        }
+        .menu-btn {
+            background: none;
+            border: none;
+            padding: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+        }
+        .menu-btn:active {
+            background: var(--bg2);
+        }
+        .hamburger-icon .bar {
+            transition: transform .25s ease, opacity .2s ease;
+            transform-origin: center;
+        }
+        .menu-open .hamburger-icon .bar1 {
+            transform: translateY(6px) rotate(45deg);
+        }
+        .menu-open .hamburger-icon .bar2 {
+            opacity: 0;
+        }
+        .menu-open .hamburger-icon .bar3 {
+            transform: translateY(-6px) rotate(-45deg);
+        }
+
+        /* ── menu drawer ── */
+        .menu-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(17, 24, 39, .35);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .25s ease;
+            z-index: 50;
+        }
+        .menu-backdrop.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .menu-drawer {
+            position: fixed;
+            top: 0;
+            right: 0;
+            height: 100%;
+            width: min(78vw, 320px);
+            background: #fff;
+            z-index: 51;
+            transform: translateX(100%);
+            transition: transform .28s cubic-bezier(.2, .8, .2, 1);
+            box-shadow: -8px 0 24px rgba(17, 24, 39, .12);
+            display: flex;
+            flex-direction: column;
+            padding: 18px 0;
+        }
+        .menu-drawer.show {
+            transform: translateX(0);
+        }
+        .menu-drawer .menu-title {
+            font-weight: 800;
+            font-size: 15px;
+            padding: 0 20px 14px 20px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .menu-close-btn {
+            background: none;
+            border: none;
+            padding: 4px;
+            margin: 0;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #111827;
+            border-radius: 8px;
+            flex-shrink: 0;
+        }
+        .menu-close-btn:active {
+            background: var(--bg2);
+        }
+        .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 13px 20px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14.5px;
+            color: var(--text);
+        }
+        .menu-item:active {
+            background: var(--bg2);
+        }
+        .menu-item svg {
+            flex-shrink: 0;
+            color: #111827;
+        }
+
+        /* ── pages ── */
+        .page {
+            display: none;
+            padding: 16px;
+            max-width: 720px;
+            margin: 0 auto;
+        }
+        .page.active {
+            display: block;
+        }
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 14px;
+            color: var(--text);
+            padding: 8px 4px;
+            margin-bottom: 8px;
+        }
+
+        /* ── home grid ── */
+        .home-hero {
+            padding: 6px 2px 16px 2px;
+        }
+        .home-hero h1 {
+            font-size: 20px;
+            margin: 0 0 4px 0;
+        }
+        .home-hero p {
+            font-size: 13px;
+            color: var(--text2);
+            margin: 0;
+        }
+        .home-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+        @media (min-width: 640px) {
+            .home-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .app-card {
+            display: flex;
+            gap: 12px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 12px;
+            position: relative;
+        }
+        .app-card-img-wrap {
+            position: relative;
+            flex-shrink: 0;
+        }
+        .app-card-img {
+            width: 72px;
+            height: 72px;
+            border-radius: 12px;
+            object-fit: cover;
+            border: 1px solid var(--border);
+        }
+        .app-card-num {
+            position: absolute;
+            top: -6px;
+            left: -6px;
+            background: var(--text);
+            color: #fff;
+            font-size: 10.5px;
+            font-weight: 800;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .app-card-body {
+            flex: 1;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .app-card-name {
+            font-weight: 800;
+            font-size: 14px;
+            color: var(--text);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .app-card-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            color: var(--text2);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .app-card-row.red-row {
+            color: #dc2626;
+        }
+        .app-card-row.red-row svg {
+            stroke: #dc2626 !important;
+            color: #dc2626;
+        }
+        .app-card-row.red-row strong {
+            color: #dc2626;
+        }
+        .app-card-row strong {
+            color: var(--text);
+            font-weight: 700;
+        }
+        .app-card-row svg {
+            flex-shrink: 0;
+        }
+        .app-download-btn {
+            margin-top: 2px;
+            background: var(--blue);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            padding: 9px 14px;
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: transform .15s ease, background .15s ease;
+        }
+        .app-download-btn:active {
+            transform: scale(.96);
+            background: var(--blue-dark);
+        }
+
+        /* ── details page ── */
+        .detail-top {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            margin-bottom: 10px;
+        }
+        .detail-img {
+            width: 96px;
+            height: 96px;
+            border-radius: 16px;
+            object-fit: cover;
+            border: 1px solid var(--border);
+            flex-shrink: 0;
+        }
+        .detail-name {
+            font-size: 19px;
+            font-weight: 800;
+            margin: 2px 0 8px 0;
+        }
+        .detail-meta-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin: 14px 0;
+        }
+        .detail-meta-item {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 10px 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .detail-meta-item svg {
+            flex-shrink: 0;
+            color: #111827;
+        }
+        .detail-meta-item .lbl {
+            font-size: 10.5px;
+            color: var(--text2);
+            font-weight: 600;
+            display: block;
+        }
+        .detail-meta-item .val {
+            font-size: 13.5px;
+            font-weight: 800;
+            color: var(--text);
+            display: block;
+        }
+        .detail-download-btn {
+            width: 100%;
+            background: var(--blue);
+            color: #fff;
+            border: none;
+            border-radius: 14px;
+            padding: 15px;
+            font-weight: 800;
+            font-size: 15.5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin: 14px 0 18px 0;
+            transition: transform .15s ease;
+        }
+        .detail-download-btn:active {
+            transform: scale(.97);
+        }
+
+        .bag {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 14px;
+            margin-bottom: 14px;
+        }
+        .warning-bag {
+            border: 1px solid #fecaca;
+            background: #fef2f2;
+        }
+        .warning-bag h3 {
+            color: #991b1b;
+        }
+        .warning-bag p {
+            color: #7f1d1d;
+        }
+        .bag h3 {
+            font-size: 14px;
+            margin: 0 0 8px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .bag p {
+            font-size: 13.3px;
+            line-height: 1.65;
+            color: #374151;
+            margin: 0 0 6px 0;
+        }
+        .bag p:last-child {
+            margin-bottom: 0;
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: 800;
+            margin: 22px 0 10px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* ── reviews ── */
+        .reviews-carousel {
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            padding: 4px 4px 10px 4px;
+            scroll-snap-type: x proximity;
+            -webkit-overflow-scrolling: touch;
+        }
+        .review-card {
+            flex: 0 0 auto;
+            width: min(80vw, 270px);
+            scroll-snap-align: start;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 14px;
+        }
+        .review-stars {
+            display: flex;
+            gap: 2px;
+            margin-bottom: 8px;
+        }
+        .review-text {
+            font-size: 12.8px;
+            line-height: 1.6;
+            color: #374151;
+            margin: 0 0 12px 0;
+        }
+        .review-divider {
+            height: 1px;
+            background: var(--border);
+            margin-bottom: 12px;
+        }
+        .review-user {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+        }
+        .review-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--blue);
+            color: #fff;
+            font-weight: 800;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .review-name {
+            font-size: 12.8px;
+            font-weight: 700;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .review-name svg {
+            flex-shrink: 0;
+            color: #6b7280;
+        }
+        .review-verified {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 10.8px;
+            color: var(--green);
+            font-weight: 700;
+            margin-top: 2px;
+        }
+
+        /* ── about / all games ── */
+        .about-block {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+        .about-block p {
+            font-size: 13.5px;
+            line-height: 1.7;
+            color: #374151;
+            margin: 0 0 10px 0;
+        }
+        .about-block p:last-child {
+            margin-bottom: 0;
+        }
+        .all-games-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .game-row {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .game-row-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            padding: 12px 14px;
+            cursor: pointer;
+        }
+        .game-row-head .name {
+            font-size: 13.5px;
+            font-weight: 700;
+        }
+        .game-row-chevron {
+            transition: transform .2s ease;
+            flex-shrink: 0;
+            color: #6b7280;
+        }
+        .game-row.open .game-row-chevron {
+            transform: rotate(180deg);
+        }
+        .game-row-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height .25s ease;
+        }
+        .game-row.open .game-row-body {
+            max-height: 260px;
+        }
+        .game-row-body p {
+            margin: 0;
+            padding: 0 14px 14px 14px;
+            font-size: 12.6px;
+            line-height: 1.6;
+            color: var(--text2);
+        }
+
+        footer.site-footer {
+            padding: 20px 16px 32px 16px;
+            text-align: center;
+            font-size: 11.5px;
+            color: var(--text2);
+        }
+        footer.site-footer a {
+            color: var(--blue);
+            font-weight: 600;
+            margin: 0 6px;
+            cursor: pointer;
+        }
+
+        /* ── TOP MODEL / BAR ── */
+        .top-model-bar {
+            position: sticky;
+            top: 60px;
+            z-index: 38;
+            background: transparent;
+            border: 0;
+            display: block;
+            padding: 0 12px;
+            height: 48px;
+            min-height: 48px;
+            box-shadow: none;
+            overflow: visible;
+        }
+        .top-model-bar.hidden-bar { opacity: 1; transform: none; pointer-events: auto; }
+
+        /* Download All App: one clean white strip, exact height only */
+        .dl-group {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 6px;
+            width: 100%;
+            height: 48px;
+            min-height: 48px;
+            padding: 4px 8px;
+            margin: 0;
+            background: #ffffff;
+            border: 0;
+            box-shadow: none;
+        }
+        .dl-group.hidden-download { display: none; }
+        .dl-label {
+            font-size: 12px;
+            font-weight: 800;
+            color: var(--text);
+            white-space: nowrap;
+        }
+        .dl-label .c1 { color: #06b6d4; }
+        .dl-label .c2 { color: #eab308; }
+        .dl-label .c3 { color: #16a34a; }
+
+        .dl-btn {
+            border: 0;
+            border-radius: 8px;
+            padding: 6px 14px;
+            font-size: 12px;
+            font-weight: 700;
+            color: #fff;
+            background: linear-gradient(135deg, #06b6d4, #2563eb);
+            box-shadow: 0 2px 8px rgba(37, 99, 235, .20);
+            cursor: pointer;
+            transition: transform .15s ease, box-shadow .15s ease;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+        .dl-btn:active {
+            transform: scale(.95);
+            box-shadow: 0 1px 4px rgba(37, 99, 235, .15);
+        }
+
+        .dl-close {
+            margin-left: 2px;
+            flex: 0 0 28px;
+            width: 28px;
+            height: 28px;
+            border: 0;
+            background: transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border-radius: 6px;
+            color: #6b7280;
+            transition: background .15s ease;
+            flex-shrink: 0;
+        }
+        .dl-close:active { background: var(--bg2); }
+        .dl-close svg { width: 18px; height: 18px; }
+
+        /* Telegram: lower than Download row, right side, no extra background */
+        .tg-row {
+            position: absolute;
+            top: 50px;
+            right: 12px;
+            width: auto;
+            display: flex;
+            align-items: flex-start;
+            justify-content: flex-end;
+            padding: 0;
+            margin: 0;
+            background: transparent;
+        }
+        .tg-group {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2px;
+            padding: 0;
+            margin: 0;
+            border: 0;
+            background: transparent;
+            box-shadow: none;
+            cursor: pointer;
+            transition: opacity .25s ease, transform .25s ease;
+            transform-origin: right center;
+            white-space: nowrap;
+        }
+        .tg-group:active { transform: scale(.94); }
+        .tg-group.hide-tg {
+            opacity: 0;
+            transform: translateX(20px) scale(.92);
+            pointer-events: none;
+        }
+        .tg-group svg {
+            width: 21px;
+            height: 21px;
+            flex-shrink: 0;
+        }
+        .tg-group .tg-text {
+            font-size: 10px;
+            font-weight: 700;
+            color: #229ED9;
+            line-height: 1.15;
+        }
+
+        /* responsive */
+        @media (max-width: 480px) {
+            .top-model-bar {
+                top: 56px;
+                padding: 0 8px;
+                height: 42px;
+                min-height: 42px;
+            }
+            .dl-group {
+                height: 42px;
+                min-height: 42px;
+                padding: 3px 6px;
+            }
+            .dl-label { font-size: 10.5px; }
+            .dl-btn {
+                font-size: 10px;
+                padding: 5px 10px;
+            }
+            .dl-close { width: 24px; height: 24px; }
+            .dl-close svg { width: 16px; height: 16px; }
+            .tg-row { top: 44px; right: 8px; }
+            .tg-group svg { width: 18px; height: 18px; }
+            .tg-group .tg-text { font-size: 9.5px; }
+        }
+        @media (max-width: 380px) {
+            .dl-label { font-size: 9.5px; }
+            .dl-btn { font-size: 9px; padding: 4px 8px; }
+            .tg-group .tg-text { font-size: 9px; }
+            .tg-group svg { width: 17px; height: 17px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ─── HEADER ─── -->
+    <header class="topbar">
+        <span class="brand">YONO GAMES Data</span>
+        <button class="menu-btn" id="menuBtn" aria-label="Open menu">
+            <svg class="hamburger-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#111827" stroke-width="2" stroke-linecap="round">
+                <line class="bar bar1" x1="4" y1="7" x2="20" y2="7" />
+                <line class="bar bar2" x1="4" y1="12" x2="20" y2="12" />
+                <line class="bar bar3" x1="4" y1="17" x2="20" y2="17" />
+            </svg>
+        </button>
+    </header>
+
+    <!-- ─── TOP MODEL BAR ─── -->
+    <div class="top-model-bar" id="topModelBar">
+        <!-- Left: Download All App group -->
+        <div class="dl-group">
+            <span class="dl-label"><span class="c1">Download</span> <span class="c2">All</span> <span class="c3">App</span></span>
+            <button class="dl-btn" id="downloadAllBtn">Download</button>
+            <button class="dl-close" id="modelCloseBtn" aria-label="Close bar">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round">
+                    <line x1="6" y1="6" x2="18" y2="18" />
+                    <line x1="18" y1="6" x2="6" y2="18" />
+                </svg>
+            </button>
+        </div>
+
+        <!-- Right: Telegram group, directly below the download row -->
+        <div class="tg-row">
+        <div class="tg-group" id="telegramGroup" aria-label="Join Telegram">
+            <svg viewBox="0 0 24 24" fill="#229ED9" aria-hidden="true">
+                <path d="M21.2 3.8 2.9 10.9c-.9.35-.9 1.65.02 1.98l4.72 1.69 1.72 5.34c.28.87 1.38 1.08 2.18.46l2.8-2.2 3.72 2.78c.78.58 1.89.18 2.11-.77l3.06-15.18c.22-1.1-.61-1.6-2.03-1.2Zm-2.36 3.28-7.93 6.77-1.16 3.58-.93-3.03 8.65-7.17c.4-.34.88-.76 1.37-.15Z"/>
+            </svg>
+            <span class="tg-text">Join Telegram</span>
+        </div>
+        </div>
+    </div>
+
+    <!-- ─── MENU ─── -->
+    <div class="menu-backdrop" id="menuBackdrop"></div>
+    <nav class="menu-drawer" id="menuDrawer" aria-label="Main menu">
+        <div class="menu-title">
+            <button class="menu-close-btn" id="menuCloseBtn" aria-label="Close menu">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="5" x2="19" y2="19" />
+                    <line x1="19" y1="5" x2="5" y2="19" />
+                </svg>
+            </button>
+        </div>
+        <div class="menu-item" data-page="home">
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 11l9-8 9 8" />
+                <path d="M5 10v10a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V10" />
+            </svg>
+            Home
+        </div>
+        <div class="menu-item" data-page="about">
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="9" />
+                <line x1="12" y1="16" x2="12" y2="11" />
+                <line x1="12" y1="8" x2="12.01" y2="8" />
+            </svg>
+            About
+        </div>
+        <div class="menu-item" data-page="contact">
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="5" width="18" height="14" rx="2" />
+                <path d="m4 6 8 7 8-7" />
+            </svg>
+            Contact
+        </div>
+        <div class="menu-item" data-page="disclaimer">
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 3v2" />
+                <path d="M5 8h4l-2 5a2.5 2.5 0 0 0 4 0l-2-5" />
+                <path d="M15 8h4l-2 5a2.5 2.5 0 0 0 4 0l-2-5" />
+                <path d="M5 8l7-2 7 2" />
+                <path d="M6 21h12" />
+                <path d="M12 13v8" />
+            </svg>
+            Disclaimer
+        </div>
+        <div class="menu-item" data-page="privacy">
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="5" y="11" width="14" height="9" rx="2" />
+                <path d="M8 11V8a4 4 0 0 1 8 0v3" />
+            </svg>
+            Privacy Policy
+        </div>
+    </nav>
+
+    <!-- ─── MAIN ─── -->
+    <main>
+        <!-- HOME -->
+        <section class="page active" id="page-home">
+            <div class="home-hero">
+                <h1>74+ Premium Games &amp; Apps</h1>
+                <p>Browse the full directory and download the app you want.</p>
+            </div>
+            <div class="home-grid" id="homeGrid"></div>
+
+            <div class="bag" style="margin-top:22px;">
+                <h3>Getting Started</h3>
+                <p>Installing any app from this directory follows the same basic Android flow: tap Download on a listing such as YONO NEW APP or 567 SLOTS, allow the browser to finish saving the file, then open it from your downloads and confirm the standard "install from this source" permission if your phone asks for it — this prompt is a normal Android safety step, not something specific to any one app.</p>
+                <p>Opening an app for the first time, whether it's SAGA SLOTS, RUMMY LUDO, or any other listing here, usually leads to a short signup screen. Most apps ask for a mobile number first, then send a one-time OTP to confirm it — enter that code only inside the app itself, never to anyone who contacts you asking for it by phone, SMS, or chat.</p>
+                <p>New-user signup bonuses, like the ones shown on each card above, are typically credited automatically right after that first signup step completes — the exact figure and any conditions attached to it are set by the individual app, not by this directory, so it's worth a quick look at that app's own terms once you're signed in.</p>
+            </div>
+
+            <div class="bag">
+                <h3>Safety &amp; Responsible Use</h3>
+                <p>None of the apps listed here should ever need your OTP, password, or PIN repeated back to a caller, message, or email — treat any request like that as a scam attempt, regardless of which app it claims to be from.</p>
+                <p>Avoid sharing photos of identity documents unless you are inside an app's own verified KYC screen and the request is part of that app's normal account-verification flow; this directory never asks for that information and never needs it.</p>
+                <p>Real-money features carry genuine financial risk. No bonus, withdrawal, or outcome on any listed app is guaranteed, and it's worth only using money you can comfortably afford, especially while you're still learning how a new app works.</p>
+            </div>
+
+            <div class="bag">
+                <h3>Deposits, Withdrawals &amp; Support</h3>
+                <p>Deposits and withdrawals on these apps are usually processed quickly, but like any payment system they can occasionally run into technical hiccups or bank-side delays that are outside any app's direct control.</p>
+                <p>If a deposit or withdrawal seems stuck, most of these apps offer round-the-clock in-app customer support where the issue can be reported directly with your transaction details. Support teams generally look into it from there.</p>
+                <p>Resolution time varies by issue — some are sorted within hours, while others involving bank processing can reasonably take anywhere from one to seven days. This isn't a guarantee of any particular outcome, just a realistic range based on how these systems typically work.</p>
+            </div>
+
+            <div class="bag warning-bag">
+                <h3><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#dc2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> 18+ Important Notice</h3>
+                <p><strong>YONO GAMES Data provides information and referral links only.</strong> We do not operate, host, or control any listed app, and do not process any deposit or withdrawal ourselves.</p>
+                <p>This website is strictly for users aged 18 and above. Real-money gameplay carries genuine financial risk, and no outcome on any listed app is ever guaranteed by us or by that app.</p>
+                <p><strong>Never use loans or borrowed money to play any game.</strong> Decide a comfortable time and spending limit before you start, and treat every session as entertainment, not income.</p>
+                <p>Never share an OTP, password, or PIN with anyone claiming to represent us or any listed app — genuine support never needs that outside the app's own screens.</p>
+            </div>
+        </section>
+
+        <!-- DETAILS -->
+        <section class="page" id="page-details">
+            <div id="detailsContent"></div>
+        </section>
+
+        <!-- ABOUT -->
+        <section class="page" id="page-about">
+            <div id="aboutContent"></div>
+        </section>
+
+        <!-- CONTACT -->
+        <section class="page" id="page-contact">
+            <button class="back-btn" data-back="home">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6" /></svg>
+                Back
+            </button>
+            <div class="about-block">
+                <h2 style="font-size:16px;margin:0 0 10px 0;">Contact</h2>
+                <p>This directory exists to help you find and compare games and apps in one place. For questions about a specific game or app — such as an account issue, a bonus, or a withdrawal — the fastest path is that app's own in-app support, since each app manages its own accounts and payments independently of this site.</p>
+                <p>Most of the apps listed here offer a help, support, or live-chat option reachable from within their own menu once you're signed in. That channel will always have more context about your specific account than this directory can, since it can see your actual signup date, transaction history, and account status directly.</p>
+                <p>If a question is about a deposit, a withdrawal, or a bonus not appearing as expected, it's worth having your mobile number and any transaction reference ready before reaching out to that app's support — this usually speeds up how quickly the issue is looked into.</p>
+                <p>If you have feedback about this directory itself, such as an incorrect link, an outdated screenshot, or a listing that no longer matches an app's current design, general contact guidance for reporting that will be added here as it becomes available.</p>
+                <p>This directory does not operate any of the listed apps and cannot access, change, or expedite anything inside another company's account system on a user's behalf — that responsibility always stays with the individual app.</p>
+                <p id="contactTelegramRow" class="contact-telegram-row">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="#229ED9" style="vertical-align:-5px;margin-right:6px;"><path d="M21.2 3.8 2.9 10.9c-.9.35-.9 1.65.02 1.98l4.72 1.69 1.72 5.34c.28.87 1.38 1.08 2.18.46l2.8-2.2 3.72 2.78c.78.58 1.89.18 2.11-.77l3.06-15.18c.22-1.1-.61-1.6-2.03-1.2Zm-2.36 3.28-7.93 6.77-1.16 3.58-.93-3.03 8.65-7.17c.4-.34.88-.76 1.37-.15Z"/></svg>
+                    <strong>Telegram:</strong> <a id="contactTelegramLink" href="#" target="_blank" rel="noopener" style="color:#16a34a;font-weight:700;">Loading…</a>
+                </p>
+            </div>
+        </section>
+
+        <!-- DISCLAIMER -->
+        <section class="page" id="page-disclaimer">
+            <button class="back-btn" data-back="home">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6" /></svg>
+                Back
+            </button>
+            <div class="about-block">
+                <h2 style="font-size:16px;margin:0 0 10px 0;">Disclaimer</h2>
+                <p>This website is an independent directory. Every image, name, and download link shown here is provided as information only, and every app or game listed is a separate third-party product operated by its own team.</p>
+                <p>We do not control, and cannot guarantee, the accuracy, availability, or outcome of any third-party app. Real-money participation carries genuine financial risk, and results can never be guaranteed. Users are responsible for reading each app's own terms before installing or using it, and for confirming that any real-money feature is legal in their own state or region.</p>
+                <p>We do not process deposits or withdrawals, and we do not guarantee bonuses, winnings, approvals, or support outcomes of any kind for any listed app. Bonus figures, withdrawal minimums, and other numbers shown on this directory are display information provided by or observed from each app, and can change at any time at that app's own discretion.</p>
+                <p>Installing any app always carries some general responsibility on the user's part — checking that a device meets an app's requirements, reviewing requested permissions, and keeping the operating system reasonably up to date are all normal, sensible steps regardless of which app is being installed.</p>
+                <p>This directory is not affiliated with, endorsed by, or officially representing any of the apps listed, unless explicitly stated otherwise. Any trademarks, names, or images belong to their respective owners and are shown here solely for identification purposes within this directory.</p>
+                <p>Technical issues, delayed transactions, incorrect information display, or downtime on any third-party app are outside this directory's control and should be reported directly to that app's own support channel rather than to this site.</p>
+            </div>
+        </section>
+
+        <!-- PRIVACY -->
+        <section class="page" id="page-privacy">
+            <button class="back-btn" data-back="home">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6" /></svg>
+                Back
+            </button>
+            <div class="about-block">
+                <h2 style="font-size:16px;margin:0 0 10px 0;">Privacy Policy</h2>
+                <p>This directory does not ask for or store account passwords, OTP codes, or payment details. Basic technical data, such as which pages are viewed, may be collected automatically by standard web hosting tools to help keep the site running smoothly.</p>
+                <p>Clicking a Download button takes you to a third-party app or its own website, which has its own separate privacy policy governing any information you provide there. We recommend reviewing each app's own privacy terms before creating an account.</p>
+                <p>No personal identity documents, KYC images, or bank account details are ever requested, stored, or handled by this directory at any stage — those are matters strictly between a user and the individual app they choose to install.</p>
+                <p>This directory does not use the information a person's mobile number, OTP, or in-app activity generates once they leave this site to install an app; from that point onward, that app's own privacy and data-handling practices apply.</p>
+                <p>If this site uses cookies or similar basic browser storage, it is limited to standard, low-impact purposes such as remembering a display preference or supporting normal page functionality — not for building profiles tied to real-money behaviour on any listed app.</p>
+                <p>Links to app store pages, official websites, or Telegram channels for individual games are provided purely for convenience. Once a user leaves this directory through one of those links, this privacy policy no longer applies, and the destination's own policy takes over.</p>
+                <p>Because every app listed here operates independently, users are encouraged to read that specific app's privacy policy in full — particularly its sections on data retention, third-party sharing, and account deletion — before submitting any personal information during signup.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div>
+            <a data-page="about">About</a> ·
+            <a data-page="contact">Contact</a> ·
+            <a data-page="disclaimer">Disclaimer</a> ·
+            <a data-page="privacy">Privacy Policy</a>
+        </div>
+        <p style="margin-top:10px;">Please play responsibly. Real-money features carry financial risk and are not suitable for everyone.</p>
+    </footer>
+
+    <script>
+        // ─── APP DATA ──────────────────────────────────────────────────────────
+        const EMBEDDED_APPS_DATA = [
+            { "id": 1, "name": "YONO NEW APP", "image": "https://i.ibb.co/0RZPw4wH/Screenshot-20260814-093236.jpg",
+                "link": "https://www.earntp.com/m/jm9n7r" },
+            { "id": 2, "name": "567 SLOTS", "image": "https://i.ibb.co/QWVBtNG/Screenshot-20260814-045334.jpg",
+                "link": "https://join567slots0.com/?code=4NYF487URJ6&t=1781505684" },
+            { "id": 3, "name": "SAGA SLOTS", "image": "https://i.ibb.co/k20yYCYZ/Screenshot-20260814-045747.jpg",
+                "link": "https://www.sagaslots5.com/?code=0QHJSERZYMV&t=1781505813" },
+            { "id": 4, "name": "JAIHO 91", "image": "https://i.ibb.co/bnQfcCV/Screenshot-20260814-045233.jpg",
+                "link": "https://jaiho91bonus.vip/?code=C42T99ZQHAT&t=1781506067" },
+            { "id": 5, "name": "RUMMY LUDO", "image": "https://i.ibb.co/JR326qDL/Screenshot-20260814-050655.jpg",
+                "link": "https://rummyludoapp37.com/" },
+            { "id": 6, "name": "ABC RUMMY", "image": "https://i.ibb.co/CKxFgdKB/Screenshot-20260814-050911.jpg",
+                "link": "https://d34i569g8ztoql.cloudfront.net/abcrummy_MeApp.apk" },
+            { "id": 7, "name": "RUMMY 91", "image": "https://i.ibb.co/ymwjhMwy/Screenshot-20260814-051214.jpg",
+                "link": "https://d16sfv4ssrmnvt.cloudfront.net/rummy91_AGENT.apk" },
+            { "id": 8, "name": "LOVE RUMMY", "image": "https://i.ibb.co/FkzpZCrk/Screenshot-20260814-051426.jpg",
+                "link": "https://d34i569g8ztoql.cloudfront.net/loverummy_App.apk" },
+            { "id": 9, "name": "SPIN CRUSH", "image": "https://i.ibb.co/M5cLBLc1/Screenshot-20260814-034836.jpg",
+                "link": "https://d292swwe9zki3u.cloudfront.net/spincrush_freecash.apk" },
+            { "id": 10, "name": "TOP RUMMY", "image": "https://i.ibb.co/9mwHZbCp/Screenshot-20260814-051751.jpg",
+                "link": "https://th7.my/BY1JWS/3gvute0" },
+            { "id": 11, "name": "Hello Rummy", "image": "https://i.ibb.co/ksXtjTVp/Screenshot-20260814-052023.jpg",
+                "link": "https://www.earntp.com/gold/jm9n7r" },
+            { "id": 12, "name": "RUMMY 365", "image": "https://i.ibb.co/jvpGswXD/Screenshot-20260814-052223.jpg",
+                "link": "https://join567slots0.com/?code=4NYF487URJ6&t=1781505684" },
+            { "id": 13, "name": "TEEN PATTI GOLD", "image": "https://i.ibb.co/m5sHK3ys/Screenshot-20260814-052420.jpg",
+                "link": "https://www.earntp.com/gold/jm9n7r" },
+            { "id": 14, "name": "TEEN PATTI MASTER", "image": "https://i.ibb.co/cXkXTDPR/Screenshot-20260814-052628.jpg",
+                "link": "https://www.earntp.com/m/jm9n7r" },
+            { "id": 15, "name": "YONO RUMMY", "image": "https://i.ibb.co/b5THXzC7/Screenshot-20260814-040920.jpg",
+                "link": "https://yonorummy043.com/?code=VIPYQC5EE9X&t=1781107758" },
+            { "id": 16, "name": "SLOTS WINNER", "image": "https://i.ibb.co/wNT5cZ1k/Screenshot-20260814-041656.jpg",
+                "link": "https://slotswinneri.com/?code=PGVC6CBNF53&t=1781107393" },
+            { "id": 17, "name": "GOOD SLOTS", "image": "https://i.ibb.co/Hpk3dp9X/Screenshot-20260814-053030.jpg",
+                "link": "https://7sharegoodslots.vip?pid=320806209&channel=2010001&t=pdd2&pkg=com.1" },
+            { "id": 18, "name": "Diwa Slot", "image": "https://i.ibb.co/2zv2Nyy/Screenshot-20260814-053408.jpg",
+                "link": "https://sharediwaslot1.vip?pid=483455673&channel=2010002&t=pdd2&pkg=com.diwaslotwhl.app" },
+            { "id": 19, "name": "GOGO RUMMY", "image": "https://i.ibb.co/RTwyQ4tF/Screenshot-20260814-053625.jpg",
+                "link": "https://www.gogorummyagent.com/?code=V4UTQA2VYMQ&t=1781196694" },
+            { "id": 20, "name": "JOY RUMMY", "image": "https://i.ibb.co/SCc42Cp/Screenshot-20260814-053827.jpg",
+                "link": "https://www.joyrummymax.com/?code=J5KFTAWJ9X5&t=1781198100" },
+            { "id": 21, "name": "SPIN GOLD", "image": "https://i.ibb.co/0yd0J3dy/Screenshot-20260814-030656.jpg",
+                "link": "https://uono-bingo101.com/?code=3WFQ231H9Y2&t=1781197828" },
+            { "id": 22, "name": "BINGO 101", "image": "https://i.ibb.co/Xk2wP9Nk/Screenshot-20260814-034121.jpg",
+                "link": "https://uono-bingo101.com/?code=3WFQ231H9Y2&t=1781197828" },
+            { "id": 23, "name": "YES SPIN", "image": "https://i.ibb.co/60hFLZzw/Screenshot-20260814-054324.jpg",
+                "link": "https://www.yesspineee.com/?code=47TXJTLU5YY&t=1781198907" },
+            { "id": 24, "name": "YONO ARCADE", "image": "https://i.ibb.co/R4QMbqBt/Screenshot-20260814-040720.jpg",
+                "link": "https://yonoarcadeapk9.com/?code=96LNEL9FQXZ&t=1781199006" },
+            { "id": 25, "name": "SVIP 777", "image": "https://i.ibb.co/MyQvt1R2/Screenshot-20260814-054554.jpg",
+                "link": "https://www.svip777.life?pid=297924008&channel=2050001&t=pdd2&pkg=com.svip777.h5" },
+            { "id": 26, "name": "OK RUMMY", "image": "https://i.ibb.co/xKhB5qzg/Screenshot-20260814-054736.jpg",
+                "link": "https://www.okrummy22.com/?code=H2GU92WUXXA&t=1781199220" },
+            { "id": 27, "name": "HINDI 777", "image": "https://i.ibb.co/pvtCPtTT/Screenshot-20260814-055304.jpg",
+                "link": "https://www.hindi777agent5.com/?code=7LFFR8WPHEG&t=1781199307" },
+            { "id": 28, "name": "BET 213", "image": "https://i.ibb.co/6c3k7wdG/Screenshot-20260814-055545.jpg",
+                "link": "https://www.bet213.rocks/?code=2QTKPV4BYDH&t=1781199576" },
+            { "id": 29, "name": "BOSS RUMMY", "image": "https://i.ibb.co/jvwscPDf/Screenshot-20260814-055812.jpg",
+                "link": "https://www.bossrummyy.com/?code=LSHTVUZE1NR&t=1781429504" },
+            { "id": 30, "name": "YONO 777", "image": "https://i.ibb.co/v4G1fQtr/Screenshot-20260814-060203.jpg",
+                "link": "https://uono777refer.vip/?code=F9MPSLKZCV9&t=1781429388" },
+            { "id": 31, "name": "Diwa VIP", "image": "https://i.ibb.co/6RQ2tGnw/Screenshot-20260814-060417.jpg",
+                "link": "https://uono777refer.vip/?code=F9MPSLKZCV9&t=1781429388" },
+            { "id": 32, "name": "Diwa 777", "image": "https://i.ibb.co/hFNKBdvq/Screenshot-20260814-060707.jpg",
+                "link": "https://sharediwa7771.top?pid=287747863&channel=2010001&t=pdd2&pkg=com.diwa777.app" },
+            { "id": 33, "name": "YONO GAMES", "image": "https://i.ibb.co/Gf0fxYQ4/Screenshot-20260814-040510.jpg",
+                "link": "https://yonogamesm.com/?code=LHS49AEHVMR&t=1784314209" },
+            { "id": 34, "name": "INR RUMMY", "image": "https://i.ibb.co/hJpHMvPg/Screenshot-20260814-061018.jpg",
+                "link": "https://inrrummy.club/?code=JMQBV8TAPD7&t=1784298106" },
+            { "id": 35, "name": "MBM BET", "image": "https://i.ibb.co/0j53Gb5W/Screenshot-20260814-042359.jpg",
+                "link": "https://www.mbmbet3.com/?code=GD3H3VA6YK5&t=1784297830" },
+            { "id": 36, "name": "GOA SPIN", "image": "https://i.ibb.co/jkQ5z96x/Screenshot-20260814-033551.jpg",
+                "link": "https://www.earntp.com/m/jm9n7r" },
+            { "id": 37, "name": "777 GAME", "image": "https://i.ibb.co/tMJ0L7L8/1786658176260.jpg",
+                "link": "https://t.me/yonogamestite" },
+            { "id": 38, "name": "TEEN PATTI", "image": "https://i.ibb.co/fzmMFV0F/Screenshot-20260814-061532.jpg",
+                "link": "https://www.earntp.com/gold/jm9n7r" },
+            { "id": 39, "name": "All YONO GAMES", "image": "https://i.ibb.co/cKc56vJj/Screenshot-20260814-061719.jpg",
+                "link": "https://www.earntp.com/gold/jm9n7r" },
+            { "id": 40, "name": "NEW YONO GAMES", "image": "https://i.ibb.co/R4hkwzbW/Screenshot-20260814-062237.jpg",
+                "link": "https://t.me/yonogamestite" },
+            { "id": 41, "name": "YONO APPS", "image": "https://i.ibb.co/DfQgSYrP/Screenshot-20260814-061950.jpg",
+                "link": "https://t.me/yonogamestite" },
+            { "id": 42, "name": "SPIN WINNER", "image": "https://i.ibb.co/PZNRbCwk/Screenshot-20260814-034801.jpg",
+                "link": "https://www.yesspineee.com/?code=47TXJTLU5YY&t=1781198907" },
+            { "id": 43, "name": "YONO All GAMES", "image": "https://i.ibb.co/TMJwF88r/Screenshot-20260814-031654.jpg",
+                "link": "https://diwavipshare.cc?pid=428256719&channel=2050001&t=pdd2&pkg=com.diwavip.h5" },
+            { "id": 44, "name": "SPIN LUCKY", "image": "https://i.ibb.co/Q7YCZLWP/Screenshot-20260814-041943.jpg",
+                "link": "https://www.earntp.com/m/jm9n7r" },
+            { "id": 45, "name": "MAX RUMMY", "image": "https://i.ibb.co/xKH8Zz6C/Screenshot-20260814-032014.jpg",
+                "link": "https://www.maxrummy66.com/?code=QUMWTJCMZ5N&t=1784912540" },
+            { "id": 46, "name": "RANI SLOTS", "image": "https://i.ibb.co/jZMq58Pc/Screenshot-20260814-063312.jpg",
+                "link": "https://www.earntp.com/m/jm9n7r" },
+            { "id": 47, "name": "1GO PLUS", "image": "https://i.ibb.co/PzV7FRHT/Screenshot-20260814-063537.jpg",
+                "link": "https://1go.plus/4h91q" },
+            { "id": 48, "name": "RUMMY ULTRA", "image": "https://i.ibb.co/pjWGb0ty/Screenshot-20260814-034858.jpg",
+                "link": "https://www.rummyultraa.com/?dl=5hrw1p" },
+            { "id": 49, "name": "789 JACKPOTS", "image": "https://i.ibb.co/5WV6Z60y/Screenshot-20260814-063848.jpg",
+                "link": "https://join789jackpots1.com/?code=XYUGRMBA44Y&t=1784907944" },
+            { "id": 50, "name": "JAIHO WIN", "image": "https://i.ibb.co/qFmG8b9q/Screenshot-20260814-041444.jpg",
+                "link": "https://www.jaihowin12.com/?code=1XNCQVU3XA5&t=1784914695" },
+            { "id": 51, "name": "SLOTS SPIN", "image": "https://i.ibb.co/0pSskjBY/Screenshot-20260814-032904.jpg",
+                "link": "https://slotsspinq.com/?code=XJB6LEBYG8R&t=1784908638" },
+            { "id": 52, "name": "NETA VIP", "image": "https://i.ibb.co/yBKhXW7S/Screenshot-20260814-032933.jpg",
+                "link": "https://neta3.vip/?code=DR0V69R7BGJ&t=1784915088" },
+            { "id": 53, "name": "JAIHO 777 VIP", "image": "https://i.ibb.co/xVcCbWY/1786669966384.jpg",
+                "link": "https://jaiho777agent.com?code=98X2D8Y3QGD&t=1784915217" },
+            { "id": 54, "name": "DHAN GAME", "image": "https://i.ibb.co/JRshnS3z/Screenshot-20260814-033641.jpg",
+                "link": "https://www.dhanwin365.com/?code=47TWH18LDKB&t=1784915487" },
+            { "id": 55, "name": "DIWA GAME", "image": "https://i.ibb.co/zVvgvPpL/Screenshot-20260814-040014.jpg",
+                "link": "https://diwagameshare.club?pid=345550936&channel=2010002&t=pdd2&pkg=com.diwagamewhx.app" },
+            { "id": 56, "name": "BET 54 GAMES", "image": "https://i.ibb.co/zWrDwLPt/Screenshot-20260814-033239.jpg",
+                "link": "https://www.earntp.com/gold/jm9n7r" },
+            { "id": 57, "name": "ALL YONO APPS", "image": "https://i.ibb.co/Qq9Zn7f/Screenshot-20260814-064907.jpg",
+                "link": "https://www.earntp.com/m/jm9n7r" },
+            { "id": 58, "name": "T989 APPS", "image": "https://i.ibb.co/bR8bB9qn/Screenshot-20260814-041927.jpg",
+                "link": "https://www.earntp.com/gold/jm9n7r" },
+            { "id": 59, "name": "765 CLUB", "image": "https://i.ibb.co/LDF3sXTx/Screenshot-20260814-065302.jpg",
+                "link": "https://765club.com/?id=637056077" },
+            { "id": 60, "name": "MKM BET APK", "image": "https://i.ibb.co/wZxK5XGr/Screenshot-20260814-032720.jpg",
+                "link": "https://www.earntp.com/m/jm9n7r" },
+            { "id": 61, "name": "YN 777", "image": "https://i.ibb.co/v6GbHJ95/Screenshot-20260814-040445.jpg",
+                "link": "https://www.y729.com/?code=4SWD98JQ8LU&t=1785588919" },
+            { "id": 62, "name": "SPIN 777", "image": "https://i.ibb.co/ccGr69gJ/Screenshot-20260814-033520.jpg",
+                "link": "https://spin777cc.com/?code=7V9ZG91PA4R&t=1785589035" },
+            { "id": 63, "name": "RUMMY 888", "image": "https://i.ibb.co/bMgzZNPd/Screenshot-20260814-033315.jpg",
+                "link": "https://rummy888vip43.com/?code=7WTEEW87DPM&t=1785589166" },
+            { "id": 64, "name": "RUMMY 77", "image": "https://i.ibb.co/BXKxwDX/Screenshot-20260814-035041.jpg",
+                "link": "https://www.earntp.com/m/jm9n7r" },
+            { "id": 65, "name": "MQM BET", "image": "https://i.ibb.co/nqbdMSST/Screenshot-20260814-035011.jpg",
+                "link": "https://4mqmshare.vip?pid=486385025&channel=2010001&pkg=com.mqm.bet" },
+            { "id": 66, "name": "MAHA GAMES", "image": "https://i.ibb.co/nNmMgR25/Screenshot-20260814-034026.jpg",
+                "link": "https://good-mahagames.com/?code=J24U9DHRWR8&t=1785589525" },
+            { "id": 67, "name": "IND RUMMY", "image": "https://i.ibb.co/BKSZbZMt/Screenshot-20260814-091502.jpg",
+                "link": "https://www.earntp.com/m/jm9n7r" },
+            { "id": 68, "name": "Hi RUMMY", "image": "https://i.ibb.co/27r99T47/Screenshot-20260814-091836.jpg",
+                "link": "https://joinhirummy.net/?code=RX35XQBCPC9&t=1785590074" },
+            { "id": 69, "name": "JAIHO SPIN", "image": "https://i.ibb.co/rfc5rdpv/Screenshot-20260814-041105.jpg",
+                "link": "https://18jaihospinpro.com/?code=U3VDD22Q&t=1785590326" },
+            { "id": 70, "name": "JAIHO RUMMY", "image": "https://i.ibb.co/TD7mQ4Qw/Screenshot-20260814-035539.jpg",
+                "link": "https://jaihoclud.com/?code=E744HJRF6W7&t=1785590487" },
+            { "id": 71, "name": "YONO SLOTS", "image": "https://i.ibb.co/TDF7VJ1w/Screenshot-20260814-092416.jpg",
+                "link": "https://www.yonoslotsm.com/?code=KU899FV2GFY&t=1785590595" },
+            { "id": 72, "name": "Diwa Win", "image": "https://i.ibb.co/XfXsfDrh/Screenshot-20260814-032430.jpg",
+                "link": "https://diwawinshare.tech?pid=528544053&channel=2010002&pkg=com.diwawin002.app" },
+            { "id": 73, "name": "RUMBLE RUMMY", "image": "https://i.ibb.co/S7VgC8Cr/Screenshot-20260814-035804.jpg",
+                "link": "https://www.rumblerummy111.vip/?code=VX9H1GEM5EL&t=1785590916" },
+            { "id": 74, "name": "YONO VIP", "image": "https://i.ibb.co/zTH4HqXT/Screenshot-20260814-041418.jpg",
+                "link": "https://uonovipfast.com/?code=3crTKB9H7ND&t=1785591034" }
+        ];
+
+        // ─── GITHUB-BACKED DATA LOADING ──────────────────────────────────────
+        // Tries to load "apps.json" (edited via the Admin Panel) from the same
+        // folder. Falls back to the 74 embedded apps above if that file can't
+        // be loaded (e.g. opened standalone, or apps.json not yet created).
+        let apps = EMBEDDED_APPS_DATA;
+        async function loadAppsData() {
+            try {
+                const res = await fetch('apps.json', { cache: 'no-store' });
+                if (!res.ok) throw new Error('apps.json not found');
+                const list = await res.json();
+                if (!Array.isArray(list) || list.length === 0) throw new Error('empty apps.json');
+                apps = list;
+            } catch (e) {
+                apps = EMBEDDED_APPS_DATA;
+            }
+        }
+
+        // ─── HELPERS ──────────────────────────────────────────────────────────
+        const giftIcon =
+            '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13"/><path d="M19 12v7a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5C10 3 12 8 12 8"/><path d="M16.5 8a2.5 2.5 0 0 0 0-5C14 3 12 8 12 8"/></svg>';
+        const walletIcon =
+            '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h13a1 1 0 0 1 1 1v3"/><path d="M3 7v11a2 2 0 0 0 2 2h14a1 1 0 0 0 1-1v-7a1 1 0 0 0-1-1h-4a2 2 0 1 0 0 4h5"/></svg>';
+        const downloadIcon =
+            '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 11 5 5 5-5"/><path d="M5 21h14"/></svg>';
+        const friendIcon =
+            '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><circle cx="17.5" cy="9" r="2.6"/><path d="M15.8 13a5.2 5.2 0 0 1 5.7 5.2"/></svg>';
+        const sizeIcon =
+            '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18"/></svg>';
+        const starIcon = (filled) =>
+            `<svg width="14" height="14" viewBox="0 0 24 24" fill="${filled ? '#f59e0b' : 'none'}" stroke="#f59e0b" stroke-width="1.5"><polygon points="12 2 15 9 22 9 16.5 13.5 18.5 21 12 16.8 5.5 21 7.5 13.5 2 9 9 9"/></svg>`;
+        const backIcon =
+            '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6" /></svg>';
+        const aboutIcon =
+            '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><line x1="12" y1="16" x2="12" y2="11"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>';
+        const verifiedIcon =
+            '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg>';
+        const gameIcon =
+            '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="10" rx="4"/><line x1="7" y1="12" x2="7" y2="12.01"/><line x1="7" y1="10" x2="7" y2="14"/><line x1="5" y1="12" x2="9" y2="12"/><circle cx="16" cy="10.5" r="1"/><circle cx="18" cy="13.5" r="1"/></svg>';
+
+        function bonusFor(i) { const base = [];
+            for (let n = 0; n < 47; n++) base.push(20 + n * 5); return base[i % base.length]; }
+
+        function downloadsFor(i) { return 12000 + ((i * 3771) % 88000); }
+
+        function sizeFor(i) { return (18 + ((i * 37) % 25)).toFixed(1); }
+
+        function votesFor(i) { return 900 + ((i * 977) % 17000); }
+
+        function categoryOf(name) {
+            const n = name.toLowerCase();
+            if (n.includes('rummy')) return 'rummy';
+            if (n.includes('slot')) return 'slots';
+            if (n.includes('teen patti')) return 'teenpatti';
+            if (n.includes('spin')) return 'spin';
+            if (n.includes('ludo')) return 'ludo';
+            if (n.includes('bingo')) return 'bingo';
+            return 'general';
+        }
+        const categoryBlurb = {
+            rummy: 'card tables in Points, Pool and Deals formats, with matches built around forming valid sequences and sets',
+            slots: 'multiple themed reels, each with its own bonus round and visual style',
+            teenpatti: 'card rounds across Blind, Seen and Side Show play styles at different tables',
+            spin: 'a spin-the-wheel core format with varying reward tiers per spin',
+            ludo: 'both quick two-player matches and full multiplayer board games',
+            bingo: '75-ball and 90-ball room formats with different pacing',
+            general: 'a mix of casual activities bundled within one app'
+        };
+
+        function rngFor(seed) {
+            let s = seed;
+            return function() { s = (s * 48271) % 2147483647; return s / 2147483647; };
+        }
+
+        function shuffle(arr, rnd) {
+            const a = arr.slice();
+            for (let j = a.length - 1; j > 0; j--) { const k = Math.floor(rnd() * (j + 1));
+                const t = a[j];
+                a[j] = a[k];
+                a[k] = t; }
+            return a;
+        }
+
+        function buildInfoBag(i) {
+            const app = apps[i - 1];
+            const name = app.name;
+            const cat = categoryOf(name);
+            const bonus = bonusFor(i - 1);
+            const rnd = rngFor(i * 7919 + 13);
+            const openers = [
+                `${name} is built around ${categoryBlurb[cat]}.`,
+                `Opening ${name} for the first time drops you straight into ${categoryBlurb[cat]}.`,
+                `${name} keeps its core experience focused on ${categoryBlurb[cat]}.`
+            ];
+            const middles = [
+                `The interface keeps navigation to a small number of taps, so moving between the main screen and a table or reel does not require much back-and-forth.`,
+                `Session length is left up to the player — a table or round can be joined for a few minutes or for a longer stretch without the app forcing a particular pace.`,
+                `Most of the screen is used for the actual activity rather than for menus, which keeps the visible interface fairly uncluttered on smaller Android displays.`
+            ];
+            const bonusLine =
+                `New accounts on ${name} are currently shown a signup bonus of ₹${bonus}, and the minimum withdrawal threshold listed is ₹100 — both figures come directly from the app and are not altered here.`;
+            const closers = [
+                `As with any real-money app, it is worth reading ${name}'s own terms for that bonus before relying on it, since eligibility rules can vary.`,
+                `Because ${name} manages its own accounts, any question about how the bonus is credited is best directed to its in-app support.`,
+                `${name}'s own app store listing or in-app help section is the most reliable place to confirm current bonus terms.`
+            ];
+            const parts = [
+                shuffle(openers, rnd)[0],
+                shuffle(middles, rnd)[0],
+                bonusLine,
+                shuffle(closers, rnd)[0]
+            ];
+            return parts.join(' ');
+        }
+
+        function buildAboutBag(i) {
+            const app = apps[i - 1];
+            const name = app.name;
+            const cat = categoryOf(name);
+            const rnd = rngFor(i * 5081 + 271);
+            const featureSets = {
+                rummy: ['table selection by stake size', 'a scoring summary after each hand',
+                    'quick-rejoin for an in-progress table'
+                ],
+                slots: ['a rotating set of featured reels on the home screen', 'an in-app history of recent spins',
+                    'adjustable spin speed in settings'
+                ],
+                teenpatti: ['multiple table stakes to choose from', 'a simple fold/show flow during a round',
+                    'a table chat option in some rooms'
+                ],
+                spin: ['a visible reward tier before each spin', 'a daily spin allowance shown on the main screen',
+                    'a short animation confirming each result'
+                ],
+                ludo: ['both 2-player and 4-player room sizes', 'a private room code for playing with friends',
+                    'a turn timer to keep matches moving'
+                ],
+                bingo: ['a choice between 75-ball and 90-ball rooms', 'auto-marking of called numbers',
+                    'a room chat during active games'
+                ],
+                general: ['a simple home-screen layout', 'a small settings menu', 'a lightweight overall install size']
+            };
+            const feats = shuffle(featureSets[cat] || featureSets.general, rnd).slice(0, 2);
+            const sentences = [
+                `${name} is one of the apps listed in this directory, and like the others, it operates independently with its own account system, its own servers and its own support channel.`,
+                `From a usability standpoint, ${name} includes ${feats[0]} and ${feats[1]}, both of which are visible from within the app itself rather than requiring extra setup.`,
+                `Installing ${name} through the button above follows the normal Android process — the download completes, the file is opened, and any standard "install from this source" permission is confirmed if the device asks for it.`,
+                `After installation, ${name} typically asks for a mobile number to create an account, followed by an OTP step to confirm it; no password or OTP for ${name} should ever be shared with anyone outside the app itself.`,
+                `This listing does not process any deposit or withdrawal for ${name} — those actions happen entirely inside the app, under its own terms.`
+            ];
+            return shuffle(sentences, rngFor(i * 991 + 3)).join(' ');
+        }
+
+        function buildQuickNotes(i) {
+            const app = apps[i - 1];
+            const name = app.name;
+            const bonus = bonusFor(i - 1);
+            const rnd = rngFor(i * 131 + 7);
+            const securityLines = [
+                `Never share an OTP, password, or PIN for ${name} with anyone — not by phone, SMS, or chat — even if the person claims to be from ${name}'s own support team. Genuine support staff never need that information read aloud to them, since every real action inside ${name} happens on your own device, not over a call. If a message ever asks you to "confirm" your ${name} account this way, the safest move is to ignore it and check the app directly instead.`,
+                `${name} will never genuinely need your OTP or password repeated to a caller; treat any such request as a scam attempt regardless of how official it sounds. If you ever receive a message asking for this information "to verify your ${name} account," it's safest to ignore it and check your account status directly inside the app instead. It's also worth avoiding any link that promises to "fix" your ${name} account outside the app itself.`,
+                `Keep OTPs, passwords, and PINs for ${name} private at all times — the app itself never asks for them outside its own official screens. A good habit is to only ever enter this information when you yourself opened ${name} directly, never through a link sent by someone else, and to double-check that you're on the genuine app before typing anything sensitive.`
+            ];
+            const supportLines = [
+                `Account or payment questions for ${name} are best handled through its own in-app support — for example, many apps like ${name} offer an official live chat option reachable from a help or profile menu, where you can describe the issue and attach relevant details such as a screenshot or transaction reference.`,
+                `${name} runs its own support channel, separate from this directory, and that channel is the right place for a deposit, withdrawal, or account question. Look for a help, support, or live chat option inside ${name}'s own menu, since agents there can see your actual account and transaction history and respond with specifics.`,
+                `For anything specific to your ${name} account, its own in-app support — often available as a live chat or help-ticket option — will have far more context than this listing does. Keep a note of any reference or transaction ID ${name} gives you, since it usually speeds up how quickly a query gets resolved by its team.`
+            ];
+            const withdrawalLines = [
+                `Minimum withdrawal listed for ${name} is ₹100, and the request is handled entirely within the app's own wallet section rather than through this directory. Deposits and withdrawals on ${name} are usually processed quickly, though occasional delays from bank-side processing or a brief technical issue are possible, as with any payment system.`,
+                `${name} sets its own withdrawal process, and the ₹100 minimum shown here comes directly from the app rather than being invented by this listing. If a withdrawal from ${name} seems to be taking longer than expected, its in-app support is the right place to raise it, since resolution can reasonably take anywhere from a few hours up to about a week depending on the cause.`,
+                `Withdrawals from ${name} are processed by the app itself, with ₹100 listed as the minimum amount. Most requests go through without issue, but if one is delayed by a technical or banking problem, reporting it through ${name}'s support along with your transaction details is the fastest path to a resolution, even if it occasionally takes a few days.`
+            ];
+            const signupLines = [
+                `${name} generally asks for a mobile number and an OTP to finish creating an account — a fast, familiar flow for most Android users that usually takes well under a minute to complete from start to finish.`,
+                `Creating an account on ${name} typically starts with a mobile number, confirmed by an OTP, and takes only a minute or two for a new user before the main screen becomes available.`,
+                `Signing up for ${name} follows the app's own short number-plus-OTP flow, designed to get a new user into the app quickly without extra paperwork at this early stage.`
+            ];
+            const bonusLines = [
+                `The signup bonus of ₹${bonus} shown for ${name} is typically credited automatically once the first signup step is complete, based on the exact terms ${name} itself sets — it's worth a quick look at ${name}'s own bonus terms once you're signed in, since eligibility details can vary.`,
+                `That initial signup on ${name} is also usually what unlocks the ₹${bonus} welcome bonus currently shown on its listing above; the figure comes directly from ${name} and is not altered by this directory in any way.`,
+                `Once signup on ${name} is done, the ₹${bonus} new-user bonus shown here is generally applied by the app without extra steps required, though any conditions attached to using it are set entirely by ${name} rather than by this listing.`
+            ];
+            return [
+                { h: 'Security', b: shuffle(securityLines, rnd)[0] },
+                { h: 'Support', b: shuffle(supportLines, rnd)[0] },
+                { h: 'Withdrawals', b: shuffle(withdrawalLines, rnd)[0] },
+                { h: 'Sign up', b: shuffle(signupLines, rnd)[0] },
+                { h: 'Bonus', b: shuffle(bonusLines, rnd)[0] }
+            ];
+        }
+
+        function buildReviews(i) {
+            const app = apps[i - 1];
+            const name = app.name;
+            const bonus = bonusFor(i - 1);
+            const reviewerPool = ['Baharul Pande', 'Anjali Mehta', 'Rohit Sharma', 'Priya Nair', 'Karan Malhotra',
+                'Sneha Kulkarni', 'Vikram Rao', 'Fatima Sheikh', 'Arjun Verma', 'Divya Iyer'
+            ];
+            const themes = [
+                { t: `${name} felt responsive from the first session, and the layout stayed easy to follow throughout.`,
+                    s: 5 },
+                { t: `Trying out a few different modes inside ${name} was straightforward — nothing felt hidden away in menus.`,
+                    s: 4 },
+                { t: `I reached out to support about a question and got a clear answer without much back-and-forth.`,
+                s: 4 },
+                { t: `Navigation around ${name} stayed smooth even during a longer session, without noticeable slowdown.`,
+                    s: 5 },
+                { t: `The signup bonus of ₹${bonus} on ${name} was a nice touch on top of an otherwise solid app.`,
+                s: 5 }
+            ];
+            const rnd = rngFor(i * 211 + 41);
+            const names = shuffle(reviewerPool, rnd).slice(0, 5);
+            return themes.map((th, idx) => ({ text: th.t, stars: th.s, name: names[idx] }));
+        }
+
+        // ─── RENDER ──────────────────────────────────────────────────────────
+        function renderHome() {
+            const grid = document.getElementById('homeGrid');
+            grid.innerHTML = apps.map((a, idx) => {
+                const bonus = bonusFor(idx);
+                return `<div class="app-card">
+              <div class="app-card-img-wrap">
+                <span class="app-card-num">${a.id}</span>
+                <img class="app-card-img" src="${a.image}" alt="${a.name}" loading="lazy">
+              </div>
+              <div class="app-card-body">
+                <div class="app-card-name">${a.name}</div>
+                <div class="app-card-row red-row">${giftIcon} Sign Up Bonus <strong>₹${bonus}</strong></div>
+                <div class="app-card-row">${walletIcon} Min. Withdrawal <strong>₹100</strong></div>
+                <button class="app-download-btn" data-open="${a.id}">${downloadIcon} Download</button>
+              </div>
+            </div>`;
+            }).join('');
+            grid.querySelectorAll('[data-open]').forEach(btn => {
+                btn.addEventListener('click', () => openDetails(Number(btn.dataset.open)));
+            });
+        }
+
+        function openDetails(id) {
+            const idx = id - 1;
+            const app = apps[idx];
+            const bonus = bonusFor(idx);
+            const notes = buildQuickNotes(id);
+            const reviews = buildReviews(id);
+            const otherApps = apps.filter(a => a.id !== id);
+            const html = `
+            <button class="back-btn" data-back="home">${backIcon} Back to Games</button>
+            <div class="detail-top">
+              <img class="detail-img" src="${app.image}" alt="${app.name}">
+              <div>
+                <div class="detail-name">${app.name}</div>
+              </div>
+            </div>
+            <div class="detail-meta-row">
+              <div class="detail-meta-item">${friendIcon}<span><span class="lbl">Downloads</span><span class="val">${downloadsFor(idx).toLocaleString()}+</span></span></div>
+              <div class="detail-meta-item">${giftIcon}<span><span class="lbl">Sign Up Bonus</span><span class="val">₹${bonus}</span></span></div>
+              <div class="detail-meta-item">${sizeIcon}<span><span class="lbl">APK Size</span><span class="val">${sizeFor(idx)} MB</span></span></div>
+              <div class="detail-meta-item">${starIcon(true)}<span><span class="lbl">Votes</span><span class="val">${votesFor(idx).toLocaleString()}+</span></span></div>
+            </div>
+            <div class="detail-meta-item" style="margin-bottom:14px;">${walletIcon}<span><span class="lbl">Min. Withdrawal</span><span class="val">₹100</span></span></div>
+            <button class="detail-download-btn" id="mainDownloadBtn">${downloadIcon} Download ${app.name}</button>
+
+            <div class="bag">
+              <h3>${app.name}</h3>
+              <p>${buildInfoBag(id)}</p>
+            </div>
+
+            <div class="bag">
+              <h3>${aboutIcon} About</h3>
+              <p>${buildAboutBag(id)}</p>
+            </div>
+
+            <div class="section-title">${gameIcon} All Games — 70+ Apps</div>
+            <div class="home-grid" id="detailAllGames">
+              ${otherApps.map(a => {
+                const aIdx = a.id - 1;
+                const aBonus = bonusFor(aIdx);
+                return `<div class="app-card">
+                  <div class="app-card-img-wrap">
+                    <span class="app-card-num">${a.id}</span>
+                    <img class="app-card-img" src="${a.image}" alt="${a.name}" loading="lazy">
+                  </div>
+                  <div class="app-card-body">
+                    <div class="app-card-name">${a.name}</div>
+                    <div class="app-card-row red-row">${giftIcon} Sign Up Bonus <strong>₹${aBonus}</strong></div>
+                    <div class="app-card-row">${walletIcon} Min. Withdrawal <strong>₹100</strong></div>
+                    <button class="app-download-btn" data-open="${a.id}">${downloadIcon} Download</button>
+                  </div>
+                </div>`;
+              }).join('')}
+            </div>
+
+            <div class="section-title">${verifiedIcon}</div>
+            <div class="all-games-list" id="quickNotesList">
+              ${notes.map((n, ni) => `<div class="game-row" data-qn="${ni}">
+                <div class="game-row-head"><span class="name">${n.h}</span><svg class="game-row-chevron" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
+                <div class="game-row-body"><p>${n.b}</p></div>
+              </div>`).join('')}
+            </div>
+
+            <div class="section-title">${friendIcon} Player Reviews</div>
+            <div class="reviews-carousel">
+              ${reviews.map(r => `<div class="review-card">
+                <div class="review-stars">${Array.from({length:5}).map((_,s)=>starIcon(s<r.stars)).join('')}</div>
+                <p class="review-text">${r.text}</p>
+                <div class="review-divider"></div>
+                <div class="review-user">
+                  <span class="review-avatar">${r.name.charAt(0)}</span>
+                  <span>
+                    <div class="review-name">${friendIcon} ${r.name}</div>
+                    <div class="review-verified">${verifiedIcon} Verified Gamer</div>
+                  </span>
+                </div>
+              </div>`).join('')}
+            </div>
+          `;
+            document.getElementById('detailsContent').innerHTML = html;
+            document.getElementById('mainDownloadBtn').addEventListener('click', () => {
+                window.open(app.link, '_blank');
+            });
+            document.querySelectorAll('#quickNotesList .game-row-head').forEach(head => {
+                head.addEventListener('click', () => head.closest('.game-row').classList.toggle('open'));
+            });
+            document.querySelectorAll('#detailAllGames [data-open]').forEach(btn => {
+                btn.addEventListener('click', () => openDetails(Number(btn.dataset.open)));
+            });
+            document.querySelectorAll('#detailsContent [data-back="home"]').forEach(b => b.addEventListener('click', () =>
+                showPage('home')));
+            showPage('details');
+            window.scrollTo({ top: 0, behavior: 'auto' });
+        }
+
+        function renderAbout() {
+            const html = `
+            <button class="back-btn" data-back="home">${backIcon} Back</button>
+            <div class="about-block">
+              <h2 style="font-size:16px;margin:0 0 10px 0;">About This Directory</h2>
+              <p>This site is a simple directory of 74 game and app listings, each shown with its own image, signup bonus figure and download link. The goal is to make it easy to browse and compare apps in one place before installing anything.</p>
+              <p>Every app listed here is an independent third-party product. This directory does not create accounts, does not process deposits or withdrawals, and does not collect OTPs or passwords for any of them.</p>
+              <p>Each app card on the Home Page shows the same basic details at a glance — its image, its current signup bonus, and its listed minimum withdrawal — so that comparing several apps before installing one doesn't require opening every listing individually.</p>
+              <p>Open any app's own page to see its full information, including its complete list of the other 73 apps in this directory, quick notes on security and support, and a short set of example player reviews.</p>
+            </div>
+          `;
+            document.getElementById('aboutContent').innerHTML = html;
+            document.querySelectorAll('#aboutContent [data-back="home"]').forEach(b => b.addEventListener('click', () =>
+                showPage('home')));
+        }
+
+        // ─── NAVIGATION ──────────────────────────────────────────────────────
+        function showPage(name) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById('page-' + name).classList.add('active');
+            if (name === 'home') { window.scrollTo({ top: 0, behavior: 'auto' }); }
+            if (name === 'about') { renderAbout();
+                window.scrollTo({ top: 0, behavior: 'auto' }); }
+        }
+
+        // ─── MENU ────────────────────────────────────────────────────────────
+        const menuBtn = document.getElementById('menuBtn');
+        const menuBackdrop = document.getElementById('menuBackdrop');
+        const menuDrawer = document.getElementById('menuDrawer');
+
+        function openMenu() { menuBackdrop.classList.add('show');
+            menuDrawer.classList.add('show');
+            menuBtn.classList.add('menu-open'); }
+
+        function closeMenu() { menuBackdrop.classList.remove('show');
+            menuDrawer.classList.remove('show');
+            menuBtn.classList.remove('menu-open'); }
+        menuBtn.addEventListener('click', () => { menuDrawer.classList.contains('show') ? closeMenu() : openMenu(); });
+        menuBackdrop.addEventListener('click', closeMenu);
+        document.getElementById('menuCloseBtn').addEventListener('click', closeMenu);
+        document.querySelectorAll('.menu-item, footer [data-page]').forEach(el => {
+            el.addEventListener('click', () => { showPage(el.dataset.page);
+                closeMenu(); });
+        });
+        document.querySelectorAll('[data-back="home"]').forEach(b => b.addEventListener('click', () => showPage('home')));
+
+        // ─── TOP MODEL BAR CONTROLS ──────────────────────────────────────────
+        (function() {
+            const bar = document.getElementById('topModelBar');
+            const closeBtn = document.getElementById('modelCloseBtn');
+            const downloadAllBtn = document.getElementById('downloadAllBtn');
+            const tgGroup = document.getElementById('telegramGroup');
+            const downloadGroup = document.querySelector('.dl-group');
+
+            // Close only the Download All App row; keep Telegram visible.
+            if (closeBtn && downloadGroup) {
+                closeBtn.addEventListener('click', function() {
+                    downloadGroup.classList.add('hidden-download');
+                });
+            }
+
+            // Download All button → open URL
+            if (downloadAllBtn) {
+                downloadAllBtn.addEventListener('click', function() {
+                    window.open(
+                        'https://web2apkpro.com/public_download.php?project_id=21599&token=6bbe1b6892', '_blank');
+                });
+            }
+
+            // Telegram group → open URL (loaded dynamically, editable via Admin Panel)
+            if (tgGroup) {
+                tgGroup.addEventListener('click', function() {
+                    window.open(window.TELEGRAM_URL || 'https://t.me/allyonogamesinfo', '_blank');
+                });
+            }
+
+            // Scroll behavior: hide Telegram group when scrolling, show when idle
+            let scrollTimer = null;
+            let lastScrollY = window.scrollY;
+            const tg = tgGroup;
+
+            if (tg) {
+                window.addEventListener('scroll', function() {
+                    const y = window.scrollY;
+                    // If user scrolled more than 3px, hide telegram
+                    if (Math.abs(y - lastScrollY) > 3) {
+                        tg.classList.add('hide-tg');
+                    }
+                    lastScrollY = y;
+                    clearTimeout(scrollTimer);
+                    scrollTimer = setTimeout(function() {
+                        tg.classList.remove('hide-tg');
+                    }, 280);
+                }, { passive: true });
+
+                // Also hide on initial load if page is scrolled
+                if (window.scrollY > 10) {
+                    tg.classList.add('hide-tg');
+                    setTimeout(function() {
+                        tg.classList.remove('hide-tg');
+                    }, 400);
+                }
+            }
+        })();
+
+        // ─── SETTINGS (Telegram URL — editable via Admin Panel) ────────────────
+        window.TELEGRAM_URL = 'https://t.me/allyonogamesinfo'; // fallback default
+        async function loadSettings() {
+            try {
+                const res = await fetch('telegram.json', { cache: 'no-store' });
+                if (!res.ok) throw new Error('telegram.json not found');
+                const settings = await res.json();
+                if (settings.url) window.TELEGRAM_URL = settings.url;
+            } catch (e) {
+                // Keep the fallback default — site still works standalone.
+            }
+            const linkEl = document.getElementById('contactTelegramLink');
+            if (linkEl) {
+                linkEl.href = window.TELEGRAM_URL;
+                linkEl.textContent = window.TELEGRAM_URL;
+            }
+        }
+
+        // ─── INIT ────────────────────────────────────────────────────────────
+        (async function init() {
+            await loadAppsData();
+            renderHome();
+        })();
+        loadSettings();
+    </script>
+</body>
+</html>
